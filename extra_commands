@@ -1,0 +1,7 @@
+for showing peers
+ sip show peers
+and for module added then
+ module load chan_sip.so
+
+
+
