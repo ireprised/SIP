@@ -1,5 +1,5 @@
 sudo apt update && sudo apt upgrade
-sudo apt install wget build-essential subversion
+sudo apt install wget build-essential subversion libssl-dev libcurses5-dev libnewt-dev linux-headers-$(uname -r) libsqlite3-dev uuid-dev
 cd /usr/src/
 sudo wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-18-current.tar.gz
 sudo tar zxf asterisk-18-current.tar.gz
