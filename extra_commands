@@ -1,7 +1,109 @@
-for showing peers
+##for showing peers
  sip show peers
-and for module added then
+##and for module added then
  module load chan_sip.so
+ reload
+
+
+##for running asterisk automatically we have to run scripts 
+ cp /usr/sr/asterisk-*/contrib/init.d/rc.devian.asterisk /etc/init.d/asterisk
+
+ type asterisk
+
+## then we need to edit the copied file
+
+DAEMON=/usr/sbin/asterisk
+ASTVARRUNDIR=/var/run/asterisk
+ASTETCDIR=/etc/asterisk
+
+/etc/init.d/asterisk start
+/etc/init.d/asterisk start
+
+
+##for security purpose we should create a user for asterisk server
+
+useradd -d /var/lib/asterisk asterisk
+sudo passwd asterisk
+cat /etc/passwd
+
+##change ownership of this directory for asterisk user
+
+chown -R asterisk /var/spool/asterisk /var/lib/asterisk /var/run/asterisk
+
+##copy another script from asterisk folder
+cp /usr/src/asterisk-*/contrib/init.d/etc_default_asterisk /etc/default/asterisk
+
+##then we have to edit that script for allow that user
+##uncomment the line of /etc/default/asterisk
+AST_USER="asterisk"
+AST_GROUP="asterisk"
+
+##to check the process that asterisk user is running the daemon
+ps -aux
+
+##edit /etc/asterisk/asterisk.conf file
+remove ; from live_dangerously=no
+
+##every reboot we need to start asterisk automatically
+update-rc.d asterisk defaults
+
+##you must use static ip for your environment
+sudo nano /etc/network/interfaces
+
+##make dhcp to static
+##then add ip subnet and gateway
+
+auto eth0
+iface eth0 inet static
+       address 192.169.100.55
+       subnet 255.255.255.0
+       gateway 192.168.100.254
+       
+service networking restart
+ip addr
+sudo nano /etc/resolv.conf
+nameserver 8.8.8.8
+
+
+sudo apt-get install dhcpd
+nano /etc/default/udhcp4
+
+##edit the file for adapt for dhcp
+  
+  DHCPD_ENABLED="yes"
+  
+##edit dhcp.conf file
+sudo nano /etc/udhcpd.conf
+
+##we need to arrange telphone block
+start        192.168.100.200
+stop.        192.168.100.220
+
+##change the dns also
+opt   dns     8.8.8.8
+option   subnet  255.255.255.0
+opt  router  192.168.100.254
+option domain local
+option lease 86400
+
+sudo /etc.init.d/udhcpd start
+
+##change time also
+sudo apt-get install ntp -y
+
+sudo /etc.init.d/ntp stop
+
+ntpdate pool.ntp.org
+
+sudo /etc.init.d/ntp start 
+
+##to check dhcp server working or not we need to see the log
+tail -f /var/log/syslog
+
+###one nano trick
+##if you want to delete the comment line in vim :g/^\s*;/d
+
+ 
 
 
 
