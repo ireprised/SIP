@@ -103,7 +103,40 @@ tail -f /var/log/syslog
 ###one nano trick
 ##if you want to delete the comment line in vim :g/^\s*;/d
 
+##for connecting user then we need to add user in sip.conf
+sudo nano /etc/asterisk.sip.conf
+
+[iqbal]
+ type=friend
+ context=internal
+ host=dynamic
+ secret=123
+ allow=ulow
  
+
+[russel]
+ type=friend
+ context=internal
+ host=dynamic
+ secret=456
+ allow=ulow
+
+
+##then we have to make dial plan in extensions.conf
+
+[internal]
+exten => 100,1,NoOp(call for russel)
+same => n,Dial(SIP/russle)
+same => n,Hangup()
+
+exten =>200,1,NoOp(call for iqbal)
+same => n,Dial(SIP/iqbal)
+same => n,Hangup()
+
+
+##after making change make sure give dialplan reload
+##and sudo asterisk -rvvv
+
 
 
 
