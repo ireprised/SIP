@@ -1,0 +1,55 @@
+Install and Configure 3CX PBX on Debian 11/10/9/8
+In this guide, we’ll cover the installation and configuration of 3CX on Debian 10/9/8 Linux distributions. This guide is a part of building an enterprise open source VOIP System on Linux. 3CX is an open standard software-based IP PBX system which offers complete Unified Communications for your Business.
+By using 3CX, it becomes so easy to install, manage and maintain your PBX system, whether as a Cloud PBX or on a dedicated server on your premise. The recommended operating systems for running 3CX are Buster, Stretch or Jessie.
+Install 3CX PBX on Debian 10/9/8
+Note that 3CX provides both free and commercial versions of the software. For comparison, check 3CX Edition Comparison page.
+Step 1: Update your system packages
+Let’s make sure we have all packages updated.
+sudo apt update
+Step 2: Add 3CX Repository to Debian 11/10/9/8
+Next is to add the 3CX packages repository to your system. Start by importing GPG key used for signing packages.
+wget -O- http://downloads-global.3cx.com/downloads/3cxpbx/public.key | sudo apt-key add -
+ 
+Once the key is imported, add repository.
+ 
+# Add repository to Debian 10
+sudo apt install gnupg2 -y
+
+echo "deb http://downloads-global.3cx.com/downloads/debian buster main" | sudo tee /etc/apt/sources.list.d/3cxpbx.list
+
+Step 3: Install 3CX PBX on Debian 10/9/8
+Update repository list and install 3CX.
+sudo apt update
+sudo apt install net-tools dphys-swapfile -y
+sudo apt install 3cxpbx -y
+If you getting error while installing 3cspbx  please download libicu63_63.1-6+deb10u3_amd64.deb from below link and install 
+wget http://ftp.de.debian.org/debian/pool/main/i/icu/libicu63_63.1-6+deb10u3_amd64.deb
+sudo dpkg -i libicu63_63.1-6+deb10u3_amd64.deb
+This is a fully automated installation, you just relax and wait for it to complete. On success, a message is printed on your screen:
+Step 4: Open 3CX Web interface
+Now open  3CX Web portal using URL shown after the installation to finish the setup.
+Get your free linux PBX license key from here: https://www.3cx.com/phone-system/download-phone-system/ 
+Once you get the license key, paste it on License key box and click “Next”
+
+Next configurations are for:
+
+Configure login username and password
+
+Confirm your IP address or set new one
+Select the type of Public IP
+Select your preferred Subdomain/FQDN
+
+Port selection for Web services (HTTPS/HTTP) and VoIP (SIP and Tunnel)
+
+Select the default network adapter
+Wait for domain setup to complete then:
+Select Extension Length
+Set Admin Email
+Select Country and Time Zone
+And all other settings asked
+You’ll be required to Create Operator Extension which will be the default destination for inbound calls. Also confirm the Voice Mail extension that will allow users to retrieve their voice mail.
+On completion, you’ll be shown installation details with “Congratulations Your 3CX Installation is ready” message. You can access the 3CX Management console from this URL: https://xx.3cx.co.za:5001 or via IP: https://ip-address:5001
+You should get admin interface for Administering 3CX PBX system.
+If you ever need to re-install 3CX, clean the installation first by running:
+sudo /usr/sbin/3CXWizard --cleanup
+
